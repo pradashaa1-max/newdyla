@@ -1,37 +1,30 @@
+#pragma once
+#include <cstddef>
 
----
+// PlayerController (TypeDefIndex 2782)
+namespace Off {
+    constexpr size_t Team           = 0x59;
+    constexpr size_t AimController  = 0x60;
+    constexpr size_t Weaponry       = 0x68;
+    constexpr size_t HitController  = 0x88;
+    constexpr size_t MainCamera     = 0xC0;
+    constexpr size_t FpsCamera      = 0xC8;
+    constexpr size_t PhotonView     = 0x120;
+    constexpr size_t PhotonPlayer   = 0x130;
 
-**Makefile**
+    // PlayerManager (2794)
+    constexpr size_t PM_Dict        = 0x20;
+    constexpr size_t PM_HashSet     = 0x28;
+    constexpr size_t PM_LocalA      = 0x68;
+    constexpr size_t PM_LocalB      = 0x70;
 
-```makefile
-TARGET   = Astral
-OUT      = out
-SRC      = src/entry.mm src/player.cpp src/aimbot.cpp src/esp.cpp src/menu.cpp src/hooks.cpp
-OBJ      = $(SRC:.mm=.o)
-OBJ     := $(OBJ:.cpp=.o)
+    // AimController (2930)
+    constexpr size_t SensX          = 0x50;
+    constexpr size_t SensY          = 0x54;
+    constexpr size_t FpsCamTr       = 0x70;
+    constexpr size_t CamTransform   = 0x80;
+    constexpr size_t AimParams      = 0x88;
 
-SDK      = $(shell xcrun --sdk iphoneos --show-sdk-path)
-CC       = xcrun -sdk iphoneos clang++
-CFLAGS   = -std=c++17 -fPIC -fobjc-arc -arch arm64 -isysroot $(SDK) \
-           -I./src -O2 -fvisibility=hidden
-LDFLAGS  = -shared -arch arm64 -isysroot $(SDK) \
-           -framework UIKit -framework Foundation -framework Metal \
-           -Wl,-undefined,dynamic_lookup
-
-.PHONY: all clean
-
-all: $(OUT)/$(TARGET).dylib
-
-$(OUT)/$(TARGET).dylib: $(OBJ)
-	@mkdir -p $(OUT)
-	$(CC) $(LDFLAGS) -o $@ $^
-	@echo "built $@"
-
-%.o: %.mm
-	$(CC) $(CFLAGS) -c $< -o $@
-
-%.o: %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
-
-clean:
-	rm -f $(OBJ) $(OUT)/$(TARGET).dylib
+    // HitController base (FloatValue Health often @ 0x18 in derived)
+    constexpr size_t HealthFloat    = 0x18;
+}
